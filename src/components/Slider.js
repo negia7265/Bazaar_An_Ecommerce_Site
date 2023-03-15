@@ -26,8 +26,7 @@ export default function Slider() {
     position: absolute;
     left: ${(props) =>
       props.direction === "right" ? "calc(100% - 50px)" : "0px"};
-    right: ${(props) =>
-      props.direction === "left" ? "0px" : "calc(100% - 50px)"};
+    cursor:pointer;
   `;
   const Wrapper = styled.div`
     height: 100%;
@@ -76,20 +75,17 @@ export default function Slider() {
   `;
   const handleClick = (direction) => {
     console.log(direction);
-    if (direction === "right" && slideno !== sliderItems.length - 1) {
-      setslideno(slideno + 1);
-      setslideindex(slideindex + 100);
-    } else if (direction === "left" && slideno > 0) {
-      setslideno(slideno - 1);
-      setslideindex(slideindex - 100);
+    if (direction === "right") {
+      setslideno((slideno + 1)%3);
+      setslideindex((slideindex + 100)%300);
+    } else if (direction === "left") {
+      setslideno((slideno +2)%3);
+      setslideindex((slideindex +200)%300);
     }
   };
   return (
     <div>
       <Container>
-        <Arrow onClick={() => handleClick("left")} direction="left">
-          <ArrowBackIosIcon />
-        </Arrow>
         <Wrapper>
           {sliderItems.map((items) => (
             <Slide>
@@ -104,7 +100,9 @@ export default function Slider() {
             </Slide>
           ))}
         </Wrapper>
-
+        <Arrow onClick={() => handleClick("left")} direction="left">
+          <ArrowBackIosIcon />
+        </Arrow>
         <Arrow onClick={() => handleClick("right")} direction="right">
           <ArrowForwardIosIcon />
         </Arrow>
